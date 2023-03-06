@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int board[9];
+
+void printBoard();
+int checkWinner();
+
+int main()
+{
+for (int i = 0; i < 9; i++)
+{
+board[i] = 0;
+}
+int userTurn = -1;
+int computerTurn = -1;
+srand(time(NULL));
+
+while (checkWinner() == 0)
+{    // nu am voie sa aleg o pozitie ocupata
+
+    while (userTurn == -1 || board[userTurn] != 0)
+    {
+        printf("Choose number from 0-8: ");
+        scanf("%d", &userTurn);
+        printf("You typed %d\n", userTurn);
+    }
+    board[userTurn] = 1;
+
+    // nu are voie calculatorul sa aleaga o pozitie neocupata
+    while (computerTurn == -1 || board[computerTurn] != 0)
+    {
+        computerTurn = rand() % 8;
+        printf("Computer chooses %d\n", computerTurn);
+    }
+    board[computerTurn] = 2;
+
+    printBoard();
+}
+
+printf("Player %d won the game\n", checkWinner());
+
+return 0;
+}
+
+void printBoard()
+{
+for (int i = 0; i < 9; i++)
+{
+    //print X sau 0
+    // 0 inseamna poz neocupata . 1 e jucatorul 1 si 2 e jucatorul 2(computer)
+if (board[i] == 0)
+{
+printf(".");
+}
+if (board[i] == 1)
+{
+printf("X");
+}
+if (board[i] == 2)
+{
+printf("O");
+}
+ if (i == 2 || i == 5 || i == 8)
+    {
+        printf("\n");
+    }
+}
+}
+
+int checkWinner()
+{
+// return 0 daca nu sunt castigatori
+// prima linie
+if (board[0] == board[1] && board[1] == board[2])
+{
+return board[0];
+}
+// a doua linie
+if (board[3] == board[4] && board[4] == board[5])
+{
+return board[3];
+}
+// a treia linie
+if (board[6] == board[7] && board[7] == board[8])
+{
+return board[6];
+}
+// prima coloana
+if (board[0] == board[3] && board[3] == board[6])
+{
+return board[0];
+}
+// a doua coloana
+if (board[1] == board[4] && board[4] == board[7])
+{
+return board[1];
+}
+// a treia coloana
+if (board[2] == board[5] && board[5] == board[8])
+{
+return board[2];
+}
+// diagonala princiapala
+if (board[0] == board[4] && board[4] == board[8])
+{
+return board[0];
+}
+// diagonala secundara
+if (board[2] == board[4] && board[4] == board[6])
+{
+return board[2];
+}
+return 0;
+}
